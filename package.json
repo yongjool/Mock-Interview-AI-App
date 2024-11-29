@@ -1,0 +1,23 @@
+{
+  "name": "m3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix frontend/mock-interview-app\"",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "npm test --prefix backend",
+    "test:frontend": "npm test --prefix frontend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.8"
+  }
+}
