@@ -38,6 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
-    "babel-jest": "^29.7.0"
+    "babel-jest": "^29.7.0",
+    "react-scripts": "5.0.1"
   }
 }
