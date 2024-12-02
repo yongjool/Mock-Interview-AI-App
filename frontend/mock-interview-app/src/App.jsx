@@ -5,9 +5,10 @@ import "./App.css";
 
 const App = () => {
   const [jobTitle, setJobTitle] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(['Interviewer: Tell me about yourself.']);
   const [userInput, setUserInput] = useState("");
   const [isJobTitleDisabled, setIsJobTitleDisabled] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track the submission state
   const scrollRef = useRef(null);
 
 const handleSubmit = async () => {
@@ -18,24 +19,31 @@ const handleSubmit = async () => {
       }
 
       // Add user message to messages
-      const userMessage = `me: ${userInput}`;
+      const userMessage = `Me: ${userInput}`;
       setMessages([...messages, userMessage]);
       const userInputCopy = userInput; // Capture current input for server usage
       setUserInput("");
 
+       // Disable the submit button and show "waiting for response"
+       setIsSubmitting(true);
+
       try {
         // Send the user's message to your backend
         const response = await axios.post("http://localhost:4000/api/chat", {
+          jobTitle: jobTitle,
           message: userInputCopy,
         });
 
         // Add AI response to messages
-        const serverMessage = `server: ${response.data.message}`;
+        const serverMessage = `Interviewer: ${response.data.message}`;
         setMessages((prevMessages) => [...prevMessages, serverMessage]);
       } catch (error) {
         console.error("Error calling backend API:", error);
         const errorMessage = "server: There was an error with the AI service.";
         setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }finally {
+        // Re-enable the submit button and show "Submit" again
+        setIsSubmitting(false);
       }
     }
   };
@@ -81,14 +89,15 @@ const handleSubmit = async () => {
           <button
             className="submit-button"
             onClick={handleSubmit}
-            disabled={!jobTitle.trim() || !userInput.trim()}
+            disabled={!jobTitle.trim() || !userInput.trim() || isSubmitting} // Disable when submitting
           >
-            Submit
+            {isSubmitting ? "  ... " : "Submit"} {/* Button text */}
           </button>
         </div>
       </div>
     </>
   );
 };
+
 
 export default App;
