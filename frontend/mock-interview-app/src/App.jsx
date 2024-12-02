@@ -37,6 +37,7 @@ const handleSubmit = async () => {
         // Add AI response to messages
         const serverMessage = `Interviewer: ${response.data.message}`;
         setMessages((prevMessages) => [...prevMessages, serverMessage]);
+        
       } catch (error) {
         console.error("Error calling backend API:", error);
         const errorMessage = "server: There was an error with the AI service.";

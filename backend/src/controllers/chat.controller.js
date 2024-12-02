@@ -17,7 +17,13 @@ exports.chat = async (req, res, next) => {
         // Extract the user input from the request body
         const { jobTitle, message } = req.body;
 
-        const systemInstruction = `Always start the sentence with "As employer of Turners Car, ${jobTitle}"`;
+        const systemInstruction = 
+        `You are Interviewer.\n
+         your company is "Turner cars".\n
+         you are senior of ${jobTitle}.\n
+         you are interviewing person who is currently employed by same company, but Due to the insurance process redesign, management is expecting a lot of staff in the department to be re-trained into other roles.\n
+         you already asked "Tell me yourself" as first question. First answer you get is answer for "Tell me yourself".\n
+         skip background explaination. skip greetings.\n`;
 
         // Initialize the generative model with the dynamic system instruction
         const model = genAI.getGenerativeModel({
@@ -28,16 +34,7 @@ exports.chat = async (req, res, next) => {
         // Start a new chat session if it's the first message
         const chatSession = model.startChat({
             generationConfig,
-            history: [
-                {
-                    role: "user",
-                    parts: [{ text: "hello\n" }],
-                },
-                {
-                    role: "model",
-                    parts: [{ text: "As employer of Turners Car, hello.\n" }],
-                },
-            ],
+            history: [],
         });
 
         // Send the user message and get the AI's response
