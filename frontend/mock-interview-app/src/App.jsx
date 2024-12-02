@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
 import "./App.css";
 
 const App = () => {
@@ -8,14 +10,33 @@ const App = () => {
   const [isJobTitleDisabled, setIsJobTitleDisabled] = useState(false);
   const scrollRef = useRef(null);
 
-  const handleSubmit = () => {
+const handleSubmit = async () => {
     if (userInput.trim()) {
       // Disable the job title input after the first submit
       if (!isJobTitleDisabled) {
         setIsJobTitleDisabled(true);
       }
-      setMessages([...messages, userInput]);
+
+      // Add user message to messages
+      const userMessage = `me: ${userInput}`;
+      setMessages([...messages, userMessage]);
+      const userInputCopy = userInput; // Capture current input for server usage
       setUserInput("");
+
+      try {
+        // Send the user's message to your backend
+        const response = await axios.post("http://localhost:4000/api/chat", {
+          message: userInputCopy,
+        });
+
+        // Add AI response to messages
+        const serverMessage = `server: ${response.data.message}`;
+        setMessages((prevMessages) => [...prevMessages, serverMessage]);
+      } catch (error) {
+        console.error("Error calling backend API:", error);
+        const errorMessage = "server: There was an error with the AI service.";
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }
     }
   };
 
@@ -37,12 +58,14 @@ const App = () => {
             placeholder="Enter job title"
             value={jobTitle}
             onChange={(e) => setJobTitle(e.target.value)}
-            disabled={isJobTitleDisabled} // Disable the input if the state is true
+            disabled={isJobTitleDisabled}
           />
         </div>
         <div className="scrollable-box" ref={scrollRef}>
           {messages.length > 0 ? (
-            messages.map((msg, index) => <p key={index}>{msg}</p>)
+            messages.map((msg, index) => (
+              <p key={index} className="message">{msg}</p>
+            ))
           ) : (
             <p>No messages yet...</p>
           )}
