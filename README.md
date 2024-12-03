@@ -34,6 +34,8 @@ make sure you have your own api key in .env file.
 
 GEMINI_API_KEY='your key'
 
+.env file should be located in .\backend folder
+
 ## Set your own API
 - Add controller and routes in backend.
 - Add your routes into app.js file in backend
