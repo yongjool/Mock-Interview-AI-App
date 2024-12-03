@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const apiKey = process.env.GEMINI_API_KEY;
-console.log(apiKey);
+
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const generationConfig = {
@@ -15,7 +15,7 @@ exports.chat = async (req, res, next) => {
     try {
 
         // Extract the user input from the request body
-        const { jobTitle, message } = req.body;
+        const { jobTitle, history, message } = req.body;
 
         const systemInstruction = 
         `You are Interviewer.\n
@@ -34,12 +34,49 @@ exports.chat = async (req, res, next) => {
         // Start a new chat session if it's the first message
         const chatSession = model.startChat({
             generationConfig,
-            history: [],
+            history: history,
         });
 
         // Send the user message and get the AI's response
         const result = await chatSession.sendMessage(message);
         
+        // Respond with the AI-generated text
+        res.status(200).json({
+            message: result.response.text(),
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.chat2 = async (req, res, next) => {
+    try {
+        // Extract the user input from the request body
+        const { jobTitle, history, message } = req.body;
+
+        const systemInstruction = 
+        `you are ${jobTitle}.\n
+         your company is "Turner cars".\n
+         Due to the insurance process redesign, management is expecting a lot of staff in the department to be re-trained into other roles.\n
+         you are now interviewing with senior ${jobTitle} to get another role.\n
+         make sure you are acting as real person. don't use guide like [Your Name]. Think up something suitable.\n`;
+
+        // Initialize the generative model with the dynamic system instruction
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-pro",
+            systemInstruction: systemInstruction,
+        });
+
+        // Start a new chat session if it's the first message
+        const chatSession = model.startChat({
+            generationConfig,
+            history: history,
+        });
+
+        // Send the user message and get the AI's response
+        const result = await chatSession.sendMessage(message);
+
         // Respond with the AI-generated text
         res.status(200).json({
             message: result.response.text(),

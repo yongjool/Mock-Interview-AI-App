@@ -71,3 +71,61 @@ body {
 .submit-button:hover:enabled {
   background-color: #0056b3;
 }
+
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ensures items align to the left */
+  width: 100%; /* Make the container span full width if necessary */
+}
+
+.input-group {
+  display: flex;
+  width: 100%; /* Ensure the input group spans the full width */
+}
+
+.input {
+  flex: 1; /* Input takes up remaining space */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px; /* Rounded corners for left side */
+  outline: none;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 0 5px 5px 0; /* Rounded corners for right side */
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.simulate-button {
+  margin-top: 10px;
+  width: 100%; /* Make the button span full width */
+  padding: 10px;
+  font-size: 14px;
+  background-color: #6c63ff; /* Adjust color as desired */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.simulate-button:hover {
+  background-color: #574dcf; /* Slightly darker shade on hover */
+}
+
+.simulate-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
