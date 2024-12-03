@@ -29,6 +29,10 @@ npm start
 cd .\frontend\mock-interview-app\
 npm start
 
+## API KEY
+make sure you have your own api key in .env file.
+
+GEMINI_API_KEY='your key'
 
 ## Set your own API
 - Add controller and routes in backend.
