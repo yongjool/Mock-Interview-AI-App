@@ -14,6 +14,16 @@ const App = () => {
   const [isSimulating, setIsSimulating] = useState(false); // Track the submission state
   const scrollRef = useRef(null);
 
+
+const callYongAPI = async (jobTitle, history, message) => {
+  return axios.post("http://localhost:4000/api/yong", {
+    jobTitle: jobTitle,
+    history: history,
+    message: message,
+  });
+}
+
+
 const handleSubmit = async () => {
     if (userInput.trim()) {
       // Disable the job title input after the first submit
@@ -32,13 +42,7 @@ const handleSubmit = async () => {
 
       try {
         // Send the user's message to your backend
-        const response = await axios.post("http://localhost:4000/api/chat", {
-          jobTitle: jobTitle,
-          history: history,
-          message: userInputCopy,
-        });
-
-        
+        const response = await callYongAPI(jobTitle, history, userInputCopy); 
 
         // Add AI response to messages
         const serverMessage = `Interviewer: ${response.data.message}`;
@@ -93,7 +97,7 @@ const handleSubmit = async () => {
 
     try {
       // Send the user's message to your backend
-      const response = await axios.post("http://localhost:4000/api/chat2", {
+      const response = await axios.post("http://localhost:4000/api/yongTest", {
         jobTitle: jobTitle,
         history: [startMessage, ...swapUserModelRoles(history)],
         message: serverMessage,

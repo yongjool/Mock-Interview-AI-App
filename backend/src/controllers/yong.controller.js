@@ -11,7 +11,7 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-exports.chat = async (req, res, next) => {
+exports.yong = async (req, res, next) => {
     try {
 
         // Extract the user input from the request body
@@ -50,7 +50,7 @@ exports.chat = async (req, res, next) => {
 };
 
 
-exports.chat2 = async (req, res, next) => {
+exports.yongTest = async (req, res, next) => {
     try {
         // Extract the user input from the request body
         const { jobTitle, history, message } = req.body;
