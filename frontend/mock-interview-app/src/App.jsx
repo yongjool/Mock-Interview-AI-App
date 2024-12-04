@@ -14,8 +14,11 @@ const App = () => {
       if (!isJobTitleDisabled) {
         setIsJobTitleDisabled(true);
       }
-      setMessages([...messages, userInput]);
+      setMessages([...messages, "You:" + userInput]);
       setUserInput("");
+      // invoke gen ai with prompt
+      // get response
+      //set message with response
     }
   };
 
@@ -44,7 +47,7 @@ const App = () => {
           {messages.length > 0 ? (
             messages.map((msg, index) => <p key={index}>{msg}</p>)
           ) : (
-            <p>No messages yet...</p>
+            <p>Interviewer: Tell me about yourself</p>
           )}
         </div>
         <div className="input-section">
