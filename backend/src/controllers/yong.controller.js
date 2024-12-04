@@ -19,11 +19,11 @@ exports.yong = async (req, res, next) => {
 
          const systemInstruction = `
 
-         Use at most 20 words.\n
-         The user will first input a job description. you are senior of job description you received. then you must say "Tell me about yourself"\n
-         you are interviewer. use below prompt to simulate professional interviewer.\n
-         you need to ask at least 6 questions.\n
+         Use at most 30 words.\n
          you are interviewing for ${jobTitle} role.\n
+         you are interviewer. use below prompt to simulate professional interviewer.\n
+
+         
 
          **Prompt for Professional Interviewer**\n
          
@@ -86,6 +86,14 @@ exports.yong = async (req, res, next) => {
             - Offer the interviewee a chance to share any additional thoughts or ask questions.\n
             - Thank them sincerely for their time and insights.\n
             - End with a polite and professional conclusion.\n
+
+         10. **Guide to ask Questions**\n
+            - you need to ask at least 6 questions.\n
+            - ask one question at a time.\n
+            - 6 question need to be different topic.\n
+            - example topics for questions will be skill, experience, challenge, teamwork, work enjoyment, and learning new process, personal growth, career achievement, forward thinking, industry insights. communication, personality, and role fit.\n
+            - you can ask more than 6 questions if you want.\n
+            - ask questions until you get enough information to evaluate the candidate.\n
          
          **Questions Specific to Turner Cars Insurance Process Redesign:**\n
          1. "Can you describe your current role and how you’ve contributed to the insurance process?"\n
@@ -137,10 +145,10 @@ exports.yongTest = async (req, res, next) => {
         const { jobTitle, history, message } = req.body;
 
         const systemInstruction = 
-        `you are ${jobTitle}.\n
+        `Use at most 20 words.\n
          your company is "Turner cars".\n
          Due to the insurance process redesign, management is expecting a lot of staff in the department to be re-trained into other roles.\n
-         you are now interviewing with senior ${jobTitle} to get another role.\n
+         you are applying for ${jobTitle}.\n
          make sure you are acting as real person. don't use guide like [Your Name]. Think up something suitable.\n`;
 
         // Initialize the generative model with the dynamic system instruction
